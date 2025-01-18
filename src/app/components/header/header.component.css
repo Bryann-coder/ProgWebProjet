@@ -1,0 +1,29 @@
+.active {
+  font-weight: bold;
+  text-decoration: underline;
+  color: #4f46e5; /* Indigo color */
+}
+
+header {
+  background: #ffffff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Fixer le header en haut de la page */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: white; /* Choisir la couleur de fond que tu souhaites */
+  z-index: 1000; /* Assure-toi qu'il est au-dessus du contenu */
+}
+
+body {
+  padding-top: 200px; /* Ajoute de l'espace au top pour compenser la hauteur du header */
+}
+.active {
+  font-weight: bold;
+  color: #6366f1; /* Indigo-500 */
+}
+

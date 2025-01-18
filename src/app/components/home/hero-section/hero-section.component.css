@@ -1,0 +1,51 @@
+.hero-container {
+  background-image: url('/public/assets/hero-bg.jpg'); /* Remplacez par votre propre image d'arrière-plan */
+  background-size: cover;
+  background-position: center;
+}
+
+.hero-container h1 {
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+.hero-container p {
+  font-size: 1.125rem;
+}
+
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+.animate-gradient {
+  animation: gradient 3s linear infinite;
+  background-size: 300%;
+}
+
+.animate-spin-slow {
+  animation: spin 3s linear infinite;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 1s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.delay-500 {
+  animation-delay: 500ms;
+}
+
+.delay-700 {
+  animation-delay: 700ms;
+}

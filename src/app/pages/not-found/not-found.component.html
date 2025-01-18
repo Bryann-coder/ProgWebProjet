@@ -1,0 +1,57 @@
+<div class="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-indigo-50 flex items-center justify-center px-4 relative overflow-hidden">
+  <!-- Animated Background Elements -->
+  <div class="absolute inset-0 overflow-hidden">
+    @for (i of [1,2,3,4,5]; track i) {
+      <div
+        class="absolute rounded-full mix-blend-multiply filter blur-xl opacity-40"
+        [style.background]="'radial-gradient(circle, rgba(165,180,252,0.4) 0%, rgba(129,140,248,0.2) 100%)'"
+        [style.width]="'400px'"
+        [style.height]="'400px'"
+        [style.left]="randomPosition() + 'px'"
+        [style.top]="randomPosition() + 'px'"
+        [style.animation]="'float ' + (3 + i) + 's infinite ease-in-out'">
+      </div>
+    }
+  </div>
+
+  <!-- Main Content -->
+  <div class="relative z-10 text-center max-w-3xl mx-auto px-4">
+    <!-- Shopping Cart Icon -->
+    <div [@bounceAnimation] class="mb-8">
+      <svg class="w-32 h-32 mx-auto text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+      </svg>
+    </div>
+
+    <!-- 404 Number -->
+    <div class="relative mb-8">
+      <h1
+        [@bounceAnimation]
+        class="text-8xl font-bold text-indigo-500 leading-none select-none"
+      >
+        404
+      </h1>
+    </div>
+
+    <!-- Message -->
+    <div [@fadeInOut] class="space-y-6">
+      <h2 class="text-4xl font-bold text-gray-800 mb-4">Oups ! Page introuvable</h2>
+      <p class="text-xl text-gray-600 mb-8">
+        Cette page semble avoir quitté notre boutique ! <br>
+        Peut-être a-t-elle été déplacée ou supprimée.
+      </p>
+
+      <!-- Navigation Options -->
+      <div class="space-y-4">
+        <button
+          (click)="goBack()"
+          class="px-8 py-3 bg-indigo-500 text-white rounded-full font-semibold
+                    hover:bg-indigo-600 transform hover:scale-105 transition-all duration-300
+                    focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        >
+          Retour à l'accueil
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

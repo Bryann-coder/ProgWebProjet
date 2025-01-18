@@ -1,0 +1,82 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <!-- Titre de la page -->
+  <h1 class="text-3xl font-bold text-gray-800 text-center mb-6">Nos stylistes</h1>
+  <p class="text-gray-600 text-center mb-8">
+    Explorez les talents et créations uniques de nos stylistes partenaires.
+  </p>
+
+  <div class="mb-6 flex flex-col sm:flex-row gap-4">
+    <!-- Barre de recherche -->
+    <div class="flex-1">
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        placeholder="Rechercher un styliste..."
+        class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500"
+      />
+    </div>
+
+    <!-- Filtre par spécialité -->
+    <div>
+      <select
+        [(ngModel)]="selectedSpeciality"
+        class="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500">
+        <option value="">Toutes les spécialités</option>
+        <option *ngFor="let spec of specialities" [value]="spec">{{ spec }}</option>
+      </select>
+    </div>
+    <div class="flex justify-end mb-4">
+      <select
+        [(ngModel)]="sortBy"
+        (change)="sortStylists()"
+        class="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500">
+        <option value="rating">Les mieux notés</option>
+        <option value="creations">Plus de créations</option>
+      </select>
+    </div>
+  </div>
+
+
+
+  <!-- Grille des stylistes -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div
+      *ngFor="let stylist of getFilteredStylists()"
+      class="border border-gray-200 rounded-lg shadow hover:shadow-md transition"
+    >
+      <!-- Photo du styliste -->
+      <img
+        [src]="stylist.photo || '../../assets/profil1.png'"
+        [alt]="stylist.user.nom"
+        class="w-full h-48 object-cover rounded-t-lg"
+      />
+
+      <!-- Informations principales -->
+      <div class="p-4">
+        <h2 class="text-lg font-bold text-gray-800">{{ stylist.user.nom }}</h2>
+        <p class="text-sm text-gray-600 mt-1">{{ stylist.specialite }}</p>
+        <div class="flex items-center mt-2">
+          <ng-container *ngFor="let star of getStarsArray(stylist.rating)">
+            <span [class]="star ? 'text-yellow-500' : 'text-gray-400'">★</span>
+          </ng-container>
+          <span class="ml-2 text-sm text-gray-500">{{ stylist.rating }}/5</span>
+        </div>
+        <p class="text-gray-600 mt-2">{{ stylist.bibliography | slice:0:100 }}...</p>
+        <div class="text-sm text-gray-600">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" fill="currentColor">
+              <path d="M631.1 69.14C623.6 48.53 605.7 32.27 584.4 27.86L449.1 0c-13.4-2.688-26.75 4.5-31.62 17.25C403.1 44.25 368.4 64 320 64s-83.25-19.75-97.5-46.75C217.7 4.5 204.4-2.688 191 0L55.64 27.86C34.33 32.27 16.38 48.53 8.03 69.14C-.25 89.58-.75 112.6 9.63 133.5l63.62 127.2c9.5 18.75 30.38 28.88 50.62 24.12L192 268.8V480c0 17.75 14.25 32 32 32h192c17.75 0 32-14.25 32-32V268.8l68.12 15.88c20.25 4.75 41.12-5.375 50.62-24.12l63.62-127.2C640.8 112.6 640.3 89.58 631.1 69.14z"/>
+            </svg>
+          {{ stylist.products.length || 0 }} créations
+        </div>
+        <!-- Bouton d'accès aux créations -->
+        <div class="mt-4">
+          <button
+            (click)="viewStylist(stylist.id)"
+            class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
+            Voir ses créations
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
