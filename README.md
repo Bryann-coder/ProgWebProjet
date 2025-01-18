@@ -234,9 +234,9 @@ Aucune installation requise, intégré dans le backend.
 
 <h2 id="guide">📖 Guide de lancement</h2>
 
-1. Démarrez le backend :  
+1. Démarrez l'API :  
    ```bash
-   cd backend
+   cd API
    python run.py  # Port 8001
    ```  
 
@@ -244,11 +244,16 @@ Aucune installation requise, intégré dans le backend.
    ```bash
    cd frontend
    ng serve --port 4200
-   ```  
+   ```
+3. Lancez le backend :
+   ```bash
+   cd backend
+   php artisan serve
+   ```
 
-3. Ouvrez votre navigateur à [http://localhost:4200](http://localhost:4200).
+4. Ouvrez votre navigateur à [http://localhost:4200](http://localhost:4200).
 
-4. Profitez de **MyFashion** pour estimer vos mensurations !
+5. Profitez de **MyFashion** pour estimer vos mensurations !
 
 ---
 
