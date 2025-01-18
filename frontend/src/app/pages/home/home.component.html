@@ -1,0 +1,152 @@
+<app-hero-section></app-hero-section>
+<div class="container mx-auto px-4 py-8">
+  <!-- Loading Spinner -->
+  <div *ngIf="loading" class="flex justify-center items-center h-64">
+    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500"></div>
+  </div>
+
+  <div *ngIf="!loading" class="space-y-12">
+    <!-- Carrousel des tenues -->
+    <section>
+      <h2 class="text-3xl font-bold text-center text-gray-800 relative">
+        Tenues en Vedette
+        <span class="block h-1 w-24 bg-indigo-500 mx-auto mt-4 rounded-full"></span>
+      </h2>
+      <app-carousel ></app-carousel>
+    </section>
+
+    <!-- Collections -->
+    <section class="py-12 px-4 ">
+      <h2 class="text-3xl font-bold text-center mb-12 text-gray-800 relative">
+        Collections Populaires
+        <span class="block h-1 w-24 bg-indigo-500 mx-auto mt-4 rounded-full"></span>
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div *ngFor="let collection of featuredCollections"
+             class="group bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+          <div class="relative overflow-hidden rounded-t-2xl">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <img 
+              [src]="collection.image"
+              [alt]="collection.name"
+               class="w-full h-64 object-cover transform group-hover:scale-105 transition-transform duration-500">
+          </div>
+
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-gray-800 mb-3 group-hover:text-indigo-600 transition-colors">
+              {{collection.name}}
+            </h3>
+
+            <p class="text-gray-600 mb-6 line-clamp-2">{{collection.description}}</p>
+
+            <button [routerLink]="['/collections', collection.id]"
+                    class="w-1/3 py-2 mx-auto px-2 bg-indigo-600 text-white rounded-3xl
+                       hover:bg-indigo-700 active:bg-indigo-800
+                       transition-colors duration-200
+                       font-semibold shadow-md hover:shadow-lg
+                       flex items-center justify-center space-x-2 group">
+              <span>Voir</span>
+<!--              <svg xmlns="http://www.w3.org/2000/svg"-->
+<!--                   class="h-5 w-5 transform group-hover:translate-x-1 transition-transform"-->
+<!--                   fill="none"-->
+<!--                   viewBox="0 0 24 24"-->
+<!--                   stroke="currentColor">-->
+<!--                <path stroke-linecap="round"-->
+<!--                      stroke-linejoin="round"-->
+<!--                      stroke-width="2"-->
+<!--                      d="M13 7l5 5m0 0l-5 5m5-5H6"/>-->
+<!--              </svg>-->
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stylistes -->
+    <section class="py-12 px-4 ">
+      <h2 class="text-3xl font-bold text-center mb-12 text-gray-800 relative">
+        Nos Stylistes Populaires
+        <span class="block h-1 w-24 bg-indigo-500 mx-auto mt-4 rounded-full"></span>
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div *ngFor="let stylist of popularStylists"
+             class="group bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+          <div class="relative">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-t-2xl"></div>
+            <img [src]="stylist.photo"
+                 [alt]="stylist.user.nom"
+                 class="rounded-t-2xl w-full h-64 object-cover">
+          </div>
+
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-gray-800 mb-2 group-hover:text-indigo-600 transition-colors">
+              {{stylist.user.nom}}
+            </h3>
+
+            <p class="text-gray-600 mb-4">{{stylist.specialite}}</p>
+
+            <div class="flex items-center justify-between mb-6">
+              <div class="flex space-x-1">
+                <svg *ngFor="let star of stars(stylist.rating)"
+                     class="w-5 h-5 transition-transform duration-200 group-hover:scale-110"
+                     [ngClass]="{
+                   'text-yellow-400': star === 'full',
+                   'text-gray-300': star === 'empty',
+                   'text-yellow-300': star === 'half'
+                 }"
+                     fill="currentColor"
+                     xmlns="http://www.w3.org/2000/svg"
+                     viewBox="0 0 24 24">
+                  <path *ngIf="star === 'full'"
+                        d="M12 17.8l5.2 3.4-1.4-5.8 4.6-4-6-.5-2.3-5.5-2.3 5.5-6 .5 4.6 4-1.4 5.8z"/>
+                  <path *ngIf="star === 'half'"
+                        d="M12 17.8l5.2 3.4-1.4-5.8 4.6-4-6-.5-2.3-5.5-2.3 5.5-6 .5 4.6 4-1.4 5.8z"/>
+                  <path *ngIf="star === 'empty'"
+                        d="M12 17.8l5.2 3.4-1.4-5.8 4.6-4-6-.5-2.3-5.5-2.3 5.5-6 .5 4.6 4-1.4 5.8z"/>
+                </svg>
+              </div>
+              <span class="text-sm text-gray-600">{{stylist.rating}} / 5</span>
+            </div>
+
+            <button [routerLink]="'/stylists/' + stylist.id"
+                    class="w-2/3 mx-auto py-2 px-2 bg-indigo-600 text-white rounded-3xl
+                       hover:bg-indigo-700 active:bg-indigo-800
+                       transition-colors duration-200
+                       font-semibold shadow-md hover:shadow-lg
+                       flex items-center justify-center space-x-2">
+              <span>Voir le profil</span>
+              <svg xmlns="http://www.w3.org/2000/svg"
+                   class="h-5 w-5 transform group-hover:translate-x-1 transition-transform"
+                   fill="none" viewBox="0 0 24 24"
+                   stroke="currentColor">
+                <path stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Offres Spéciales
+    <section>
+      <h2 class="text-2xl font-bold mb-6">Offres Spéciales</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div *ngFor="let offer of specialOffers" class="bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-lg overflow-hidden">
+          <div class="p-4">
+            <h3 class="text-2xl font-bold">{{offer.title}}</h3>
+            <p class="text-lg">{{offer.description}}</p>
+            <div class="text-3xl font-bold mt-4">{{offer.discount}}% OFF</div>
+          </div>
+          <div class="px-4 pb-4">
+            <button class="px-4 py-2 bg-white text-black rounded-full hover:bg-gray-100">En profiter</button>
+          </div>
+        </div>
+      </div>
+    </section> -->
+  </div>
+</div>

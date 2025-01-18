@@ -1,0 +1,117 @@
+<div class="flex justify-center items-center h-screen bg-gray-100">
+  <div class="bg-white p-8 rounded-lg shadow-lg w-96">
+    <h2 class="text-2xl font-bold text-center text-gray-700 mb-6">S'inscrire</h2>
+    <form #signupForm="ngForm" (ngSubmit)="signup()" novalidate>
+      <div class="mb-4">
+        <label for="name" class="block text-gray-600">Nom complet</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          [(ngModel)]="name"
+          #nameCtrl="ngModel"
+          required
+          placeholder="Entrez votre nom complet"
+          class="w-full p-3 border border-gray-300 rounded-lg mt-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+        <div *ngIf="nameCtrl.touched && nameCtrl.invalid" class="text-red-500 text-sm">
+          <div *ngIf="nameCtrl.errors?.['required']">Nom requis</div>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label for="email" class="block text-gray-600">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          required
+          email
+          [(ngModel)]="email"
+          #emailCtrl="ngModel"
+          placeholder="Entrez votre email"
+          class="w-full p-3 border border-gray-300 rounded-lg mt-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <div *ngIf="emailCtrl.touched && emailCtrl.invalid" class="text-red-500 text-sm">
+          <div *ngIf="emailCtrl.errors?.['required']">Email requis</div>
+          <div *ngIf="emailCtrl.errors?.['email']">Format de l'email invalide</div>
+        </div>
+      </div>
+
+      <div class="mb-6">
+        <label for="password" class="block text-gray-600">Mot de passe</label>
+        <div class="relative">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            id="password"
+            name="password"
+            required
+            minlength="8"
+            placeholder="Entrez un mot de passe"
+            [(ngModel)]="password"
+            #passwordCtrl="ngModel"
+            class="w-full p-3 border border-gray-300 rounded-lg mt-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <button
+            type="button"
+            (click)="showPassword = !showPassword"
+            class="absolute right-3 top-5 text-gray-500"
+          >
+            {{ showPassword ? 'Hide' : 'Show' }}
+          </button>
+        </div>
+        <div *ngIf="passwordCtrl.touched && passwordCtrl.invalid" class="text-red-500 text-sm">
+          <div *ngIf="passwordCtrl.errors?.['required']">Mot de passe requis</div>
+          <div *ngIf="passwordCtrl.errors?.['minlength']">Le mot de passe doit comporter au moins 8 caractères</div>
+        </div>
+      </div>
+
+      <div class="mb-6">
+        <label for="confirm_password" class="block text-gray-600">Confirmer le mot de passe</label>
+        <div class="relative">
+          <input
+            [type]="showConfirmPassword ? 'text' : 'password'"
+            id="confirm_password"
+            name="confirm_password"
+            required
+            [(ngModel)]="confirmPassword"
+            #confirmPasswordCtrl="ngModel"
+            placeholder="Confirmez votre mot de passe"
+            class="w-full p-3 border border-gray-300 rounded-lg mt-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <button
+            type="button"
+            (click)="showConfirmPassword = !showConfirmPassword"
+            class="absolute right-3 top-5 text-gray-500"
+          >
+            {{ showConfirmPassword ? 'Hide' : 'Show' }}
+          </button>
+        </div>
+        <div *ngIf="confirmPasswordCtrl.touched && confirmPasswordCtrl.invalid" class="text-red-500 text-sm">
+          Confirmation du mot de passe requise
+        </div>
+        <div *ngIf="confirmPassword !== password && confirmPasswordCtrl.touched" class="text-red-500 text-sm">
+          Les mots de passe ne correspondent pas
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        [disabled]="signupForm.invalid || loading || password !== confirmPassword"
+        class="w-full bg-indigo-500 text-white p-3 rounded-lg hover:bg-indigo-600 disabled:opacity-50"
+      >
+        <span *ngIf="!loading">S'inscrire</span>
+        <span *ngIf="loading" class="loader"></span>
+      </button>
+    </form>
+
+    <div *ngIf="errorMessage" class="text-red-500 text-center mt-4">
+      {{ errorMessage }}
+    </div>
+
+    <div class="mt-4 text-center">
+      <span>Déjà un compte ?</span>
+      <a href="/login" class="text-blue-500 hover:text-blue-600"> Connectez-vous ici</a>
+    </div>
+  </div>
+</div>

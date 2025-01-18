@@ -1,0 +1,186 @@
+<div class="container mx-auto px-4 py-8">
+  <!-- Loading State -->
+  <div *ngIf="loading" class="flex justify-center items-center h-64">
+    <div class="w-16 h-16 border-4 border-t-4 border-gray-300 rounded-full animate-spin border-t-purple-500"></div>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6">
+    {{error}}
+  </div>
+
+  <!-- Collection Details -->
+  <div *ngIf="collection && !loading" class="space-y-8">
+    <!-- Header Section -->
+    <div class="bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl p-8 text-white">
+      <div class="text-center">
+        <h1 class="text-4xl font-bold mb-4">{{collection.name || 'Nom de la collection indisponible'}}</h1>
+        <p class="text-xl max-w-2xl mx-auto">Une sélection unique de nos meilleurs produits</p>
+      </div>
+    </div>
+
+    <div class="container mx-auto px-4 py-8">
+      <!-- Header Section -->
+      <div class="mb-8 space-y-4">
+        <h1 class="text-3xl font-bold text-gray-900">Découvrez notre collection</h1>
+        <p class="text-gray-600">Explorez notre collection unique créée par nos stylistes talentueux</p>
+
+        <div class="flex flex-col md:flex-row md:items-start md:gap-4">
+          <!-- Conteneur principal pour les filtres -->
+          <div class="p-4 w-full md:w-1/2 bg-white rounded-lg shadow mb-4 md:mb-0">
+            <div class="flex flex-wrap gap-4">
+              <!-- Filtre par catégorie -->
+              <div class="flex-1 min-w-[200px]">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Catégorie</label>
+                <select
+                  [(ngModel)]="selectedCategory"
+                  (change)="filterProducts()"
+                  class="w-full p-2 border rounded-md focus:ring-2 focus:ring-indigo-500"
+                >
+                  <option value="">Toutes les catégories</option>
+                  <option *ngFor="let category of categories" [value]="category">
+                    {{ category }}
+                  </option>
+                </select>
+              </div>
+
+              <!-- Filtre par styliste -->
+              <div class="relative min-w-[200px]">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Styliste</label>
+                <select
+                  [(ngModel)]="selectedStylistId"
+                  (change)="filterProducts()"
+                  class="block w-full px-4 py-2 pr-10 text-sm border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 appearance-none"
+                >
+                  <option [ngValue]="null">Tous les stylistes</option>
+                  <option
+                    *ngFor="let stylist of stylistOptions"
+                    [ngValue]="stylist.id"
+                  >
+                    {{ stylist.user.nom }}
+                  </option>
+                </select>
+              </div>
+
+              <!-- Tri -->
+              <div class="flex-1 min-w-[200px]">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Trier par</label>
+                <select
+                  [(ngModel)]="sortBy"
+                  (change)="sortProducts()"
+                  class="w-full p-2 border rounded-md focus:ring-2 focus:ring-indigo-500"
+                >
+                  <option value="price_asc">Prix croissant</option>
+                  <option value="price_desc">Prix décroissant</option>
+                  <option value="rating">Meilleures notes</option>
+                  <option value="newest">Plus récents</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bouton Réinitialiser les filtres -->
+          <div class="flex justify-end w-full md:w-1/2 mt-5">
+            <button
+              (click)="resetFilters()"
+              class="px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
+            >
+              Réinitialiser les filtres
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loading State -->
+      <div *ngIf="loading" class="flex justify-center items-center h-64">
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-500"></div>
+      </div>
+
+      <!-- Error State -->
+      <div *ngIf="error" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6">
+        {{error}}
+      </div>
+
+      <!-- Products Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div *ngFor="let product of filteredProducts"
+             class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
+          <div class="relative">
+            <!-- Image placeholder -->
+            <div class="aspect-w-4 aspect-h-3 bg-gray-200">
+              <img
+                [src]="product?.image ? product.image : 'assets/placeholder.jpg'"
+                [alt]="product.nom"
+                class="object-cover w-full h-full"
+              />
+            </div>
+
+            <!-- Badge Styliste -->
+            <div *ngIf="product.stylist && product.stylist.user"
+                 class="absolute top-2 left-2 bg-black bg-opacity-50 text-white px-2 py-1 rounded-full text-sm">
+              {{product.stylist.user.nom}}
+            </div>
+          </div>
+
+          <div class="p-4">
+            <h3 class="text-lg font-semibold mb-2">{{product.nom}}</h3>
+
+            <!-- Prix et Catégorie -->
+            <div class="flex justify-between items-center mb-3">
+              <span class="text-lg font-bold text-indigo-600">{{product.price}} XAF</span>
+              <span class="text-sm text-gray-500">{{product.category}}</span>
+            </div>
+
+            <!-- Description -->
+            <p class="text-gray-600 text-sm mb-4 line-clamp-2">{{product.description}}</p>
+
+            <!-- Note moyenne -->
+            <ng-container *ngIf="product.reviews">
+              <div class="flex items-center mb-4" *ngIf="product.reviews.length > 0">
+                <div class="flex text-yellow-400">
+                  <!-- Afficher les étoiles -->
+                  <span *ngFor="let star of stars(calculateAverageRating(product))">
+        <ng-container *ngIf="star === 'full'">
+          ★
+        </ng-container>
+        <ng-container *ngIf="star === 'half'">
+          ☆
+        </ng-container>
+        <ng-container *ngIf="star === 'empty'">
+          ☆
+        </ng-container>
+      </span>
+                </div>
+                <span class="text-sm text-gray-600 ml-2">
+      ({{product.reviews.length}} avis)
+    </span>
+              </div>
+            </ng-container>
+
+            <!-- Bouton Voir détails -->
+            <button
+              [routerLink]="['/products', product.id]"
+              class="w-full bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 transition-colors"
+            >
+              Voir les détails
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div *ngIf="filteredProducts.length === 0 && !loading"
+           class="text-center py-12">
+        <div class="text-gray-500 mb-4">
+          Aucun produit ne correspond à vos critères de recherche.
+        </div>
+        <button
+          (click)="resetFilters()"
+          class="text-indigo-500 hover:text-indigo-600"
+        >
+          Réinitialiser les filtres
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

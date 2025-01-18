@@ -1,0 +1,169 @@
+<header class="shadow-md bg-white">
+  <div class="container mx-auto px-4 py-2 flex justify-between items-center">
+    <!-- Logo -->
+    <a routerLink="/" class="text-2xl font-bold text-gray-800">
+      <span class="text-indigo-500">My</span>Fashion
+    </a>
+
+    <!-- Navigation Links -->
+    <nav class="hidden md:flex space-x-6">
+      <a routerLink="/"
+         routerLinkActive="text-indigo-500"
+         [routerLinkActiveOptions]="{exact: true}"
+         class="hover:text-indigo-500 text-gray-600">
+        Accueil
+      </a>
+      <a routerLink="/products"
+         routerLinkActive="text-indigo-500"
+         class="hover:text-indigo-500 text-gray-600">
+        Nos Produits
+      </a>
+      <a routerLink="/stylists"
+         routerLinkActive="text-indigo-500"
+         class="hover:text-indigo-500 text-gray-600">
+        Nos Stylistes
+      </a>
+      <a routerLink="/cart"
+         routerLinkActive="text-indigo-500"
+         class="hover:text-indigo-500 text-gray-600">
+        Panier
+      </a>
+      <a routerLink="/measures"
+         routerLinkActive="text-indigo-500"
+         class="hover:text-indigo-500 text-gray-600">
+        Vos mesures
+      </a>
+
+      <!-- Option "Mon Dashboard" pour les stylistes -->
+      <ng-container *ngIf="isAuthenticated && user?.role === 'stylist'">
+        <a routerLink="/dashboard"
+           class="hover:text-indigo-500 text-gray-600">
+          Mon Dashboard
+        </a>
+      </ng-container>
+    </nav>
+
+    <!-- Boutons de connexion/déconnexion -->
+    <div class="flex items-center space-x-4">
+      <!-- Boutons pour utilisateur non connecté -->
+      <ng-container *ngIf="!isAuthenticated">
+        <button
+          class="hidden md:block px-4 py-2 bg-indigo-500 text-white border border-indigo-500 rounded hover:bg-white hover:text-indigo-500 transition-colors"
+          (click)="onRegisterClick()">
+          Inscription
+        </button>
+
+        <button
+          class="hidden md:block px-4 py-2 text-indigo-500 border border-indigo-500 rounded hover:bg-indigo-500 hover:text-white transition-colors"
+          (click)="onLoginClick()">
+          Connexion
+        </button>
+      </ng-container>
+
+      <!-- Menu utilisateur connecté -->
+      <div *ngIf="isAuthenticated" class="hidden md:flex items-center space-x-4">
+        <span class="text-gray-600">Bienvenue, {{userName || 'Utilisateur'}}</span>
+        <button
+          class="px-4 py-2 text-red-500 border border-red-500 rounded hover:bg-red-500 hover:text-white transition-colors"
+          (click)="onLogout()">
+          Déconnexion
+        </button>
+      </div>
+
+      <!-- Bouton menu hamburger -->
+      <button
+        class="md:hidden focus:outline-none"
+        (click)="toggleMenu()"
+        aria-label="Menu">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-16 6h16"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Overlay du menu mobile -->
+  <div
+    *ngIf="menuOpen"
+    class="fixed inset-0 bg-black bg-opacity-25 z-40"
+    (click)="closeMenu()">
+  </div>
+
+  <!-- Menu mobile -->
+  <div
+    *ngIf="menuOpen"
+    class="fixed top-0 left-0 bg-white w-3/4 h-full z-50 shadow-md transform transition-transform duration-300 ease-in-out"
+    [class.translate-x-0]="menuOpen"
+    [class.-translate-x-full]="!menuOpen">
+
+    <div class="flex justify-between items-center p-4 border-b">
+      <span class="text-xl font-bold text-gray-800">Menu</span>
+      <button
+        class="focus:outline-none"
+        (click)="closeMenu()"
+        aria-label="Fermer le menu">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="flex flex-col space-y-4 py-4 px-4">
+      <a routerLink="/"
+         routerLinkActive="text-indigo-500"
+         [routerLinkActiveOptions]="{exact: true}"
+         (click)="closeMenu()"
+         class="hover:text-indigo-500 text-gray-600">
+        Accueil
+      </a>
+      <a routerLink="/products"
+         routerLinkActive="text-indigo-500"
+         (click)="closeMenu()"
+         class="hover:text-indigo-500 text-gray-600">
+        Nos Produits
+      </a>
+      <a routerLink="/stylists"
+         routerLinkActive="text-indigo-500"
+         (click)="closeMenu()"
+         class="hover:text-indigo-500 text-gray-600">
+        Nos Stylistes
+      </a>
+      <a routerLink="/cart"
+         routerLinkActive="text-indigo-500"
+         (click)="closeMenu()"
+         class="hover:text-indigo-500 text-gray-600">
+        Panier
+      </a>
+
+      <!-- Option "Mon Dashboard" pour les stylistes mobile -->
+      <ng-container *ngIf="isAuthenticated && user?.role === 'stylist'">
+        <a routerLink="/dashboard"
+           (click)="closeMenu()"
+           class="w-full text-indigo-500 hover:bg-indigo-500 hover:text-white py-2 border-b">
+          Mon Dashboard
+        </a>
+      </ng-container>
+
+      <!-- Boutons de connexion/déconnexion mobile -->
+      <div class="pt-4 border-t">
+        <ng-container *ngIf="!isAuthenticated">
+          <button
+            class="w-full px-4 py-2 text-indigo-500 border border-indigo-500 rounded hover:bg-indigo-500 hover:text-white transition-colors"
+            (click)="onLoginClick()">
+            Connexion
+          </button>
+        </ng-container>
+        <ng-container *ngIf="isAuthenticated">
+          <div class="space-y-4">
+            <p class="text-gray-600">Bienvenue, {{userName || 'Utilisateur'}}</p>
+            <button
+              class="w-full px-4 py-2 text-red-500 border border-red-500 rounded hover:bg-red-500 hover:text-white transition-colors"
+              (click)="onLogout()">
+              Déconnexion
+            </button>
+          </div>
+        </ng-container>
+      </div>
+    </nav>
+  </div>
+</header>

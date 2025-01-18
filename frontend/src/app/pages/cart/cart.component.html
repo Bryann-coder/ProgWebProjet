@@ -1,0 +1,151 @@
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-6xl mx-auto" *ngIf="cartItems.length > 0; else emptyCart">
+    <h1 class="text-3xl font-bold text-gray-900 mb-10 text-center">Mon Panier</h1>
+
+    <div class="grid lg:grid-cols-3 gap-8">
+      <!-- Liste des articles (2 colonnes) -->
+      <div class="lg:col-span-2 space-y-4">
+        <div
+          *ngFor="let item of cartItems; let i = index"
+          class="bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group"
+        >
+          <div class="p-6">
+            <div class="flex gap-6">
+              <!-- Image du produit avec effet -->
+              <div class="relative w-30 h-30 rounded-2xl overflow-hidden bg-gray-100">
+                <img
+                  [src]="item.image || 'assets/images/default-product.png'"
+                  [alt]="item.name"
+                  class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <button [routerLink]="['/products', item.id]" class="absolute bottom-3 right-3 p-2 bg-white/20 backdrop-blur-sm rounded-xl text-white hover:bg-white/30 transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Informations produit -->
+              <div class="flex-1 min-w-0">
+                <h3 class="text-xl font-bold text-gray-900 mb-2 truncate">{{ item.name }}</h3>
+                <div class="flex flex-col sm:flex-row sm:items-center gap-4 mt-4">
+                  <div class="flex items-center bg-gray-100 rounded-2xl p-1">
+                    <button
+                      (click)="updateQuantity(i, item.quantity - 1)"
+                      [disabled]="item.quantity <= 1"
+                      class="w-10 h-10 rounded-xl text-gray-600 transition-all duration-200 hover:bg-white hover:shadow-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M20 12H4" />
+                      </svg>
+                    </button>
+                    <span class="w-12 text-center font-semibold text-lg">{{ item.quantity }}</span>
+                    <button
+                      (click)="updateQuantity(i, item.quantity + 1)"
+                      class="w-10 h-10 rounded-xl text-gray-600 transition-all duration-200 hover:bg-white hover:shadow-sm flex items-center justify-center"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Prix total et actions -->
+              <div class="ml-6 text-right">
+                <p class="text-2xl font-bold text-gray-900">
+                  {{ item.quantity * item.price | currency:'XAF':'symbol':'1.0-0' }}
+                </p>
+                <button
+                  (click)="removeItem(i)"
+                  class="mt-2 inline-flex items-center gap-2 text-sm text-red-500 hover:text-red-600 hover:bg-red-50 px-3 py-2 rounded-xl transition-colors duration-200"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Résumé de commande (1 colonne) -->
+      <div class="lg:col-span-1">
+        <div class="bg-white rounded-3xl shadow-sm p-8 sticky top-8">
+          <h2 class="text-2xl font-bold text-gray-900 mb-8">Résumé</h2>
+          <div class="space-y-4">
+            <div class="flex justify-between text-gray-600">
+              <span>Sous-total</span>
+              <span class="font-medium">{{ calculateTotal() | currency:'XAF':'symbol':'1.0-0' }}</span>
+            </div>
+            <div class="flex justify-between text-gray-600">
+              <span>Livraison estimée</span>
+              <span class="font-medium">Gratuite</span>
+            </div>
+            <div class="h-px bg-gray-200 my-6"></div>
+            <div class="flex justify-between items-center text-xl">
+              <span class="font-bold text-gray-900">Total</span>
+              <span class="font-bold text-indigo-600">{{ calculateTotal() | currency:'XAF':'symbol':'1.0-0' }}</span>
+            </div>
+
+            <!-- Bouton commander -->
+            <button
+              (click)="checkout()"
+              class="w-1/2 mx-auto px-3 mt-8 py-1 bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white rounded-2xl font-semibold text-lg shadow-lg shadow-indigo-600/20 hover:shadow-xl hover:shadow-indigo-600/30 transform hover:-translate-y-0.5 transition-all duration-200 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 flex items-center justify-center gap-3"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              Commander
+            </button>
+
+            <!-- Garanties -->
+            <div class="mt-8 space-y-4">
+              <div class="flex items-center gap-3 text-sm text-gray-500">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+                Paiement 100% sécurisé
+              </div>
+              <div class="flex items-center gap-3 text-sm text-gray-500">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+                Retours gratuits sous 30 jours
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Template panier vide -->
+<ng-template #emptyCart>
+  <div class="min-h-[60vh] flex items-center justify-center">
+    <div class="text-center max-w-md mx-auto p-8">
+      <div class="w-32 h-32 mx-auto mb-8 text-gray-300">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+        </svg>
+      </div>
+      <h2 class="text-3xl font-bold text-gray-900 mb-4">Votre panier est vide</h2>
+      <p class="text-gray-500 mb-8 text-lg">Découvrez nos produits et commencez à remplir votre panier</p>
+      <a
+        routerLink="/products"
+        class="inline-flex items-center justify-center px-5 py-2 text-lg font-semibold text-white bg-gradient-to-r from-indigo-600 to-indigo-700 rounded-3xl hover:from-indigo-700 hover:to-indigo-800 transition-all duration-200 shadow-lg shadow-indigo-600/20 hover:shadow-xl hover:shadow-indigo-600/30"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+        Parcourir les tenues
+      </a>
+    </div>
+  </div>
+</ng-template>

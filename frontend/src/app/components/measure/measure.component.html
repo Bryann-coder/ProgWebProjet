@@ -1,0 +1,132 @@
+<!-- Section pour les mensurations -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <!-- Titre de la page -->
+  <h1 class="text-3xl font-bold text-gray-800 text-center mb-6">Vos Mesures</h1>
+  <p class="text-gray-600 text-center mb-8">
+    Renseignez vos mesures ici
+  </p>
+
+  <!-- Tabs pour choisir la méthode -->
+  <div class="mb-6">
+    <div class="border-b border-gray-200">
+      <nav class="-mb-px flex" aria-label="Tabs">
+        <button
+          (click)="measurementMethod = 'form'"
+          [class.text-indigo-600]="measurementMethod === 'form'"
+          [class.border-indigo-500]="measurementMethod === 'form'"
+          [class.text-gray-500]="measurementMethod !== 'form'"
+          class="w-1/2 py-4 px-1 text-center border-b-2 font-medium text-sm"
+        >
+          Remplir le formulaire
+        </button>
+        <button
+          (click)="measurementMethod = 'image'"
+          [class.text-indigo-600]="measurementMethod === 'image'"
+          [class.border-indigo-500]="measurementMethod === 'image'"
+          [class.text-gray-500]="measurementMethod !== 'image'"
+          class="w-1/2 py-4 px-1 text-center border-b-2 font-medium text-sm"
+        >
+          Upload une image
+        </button>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Upload d'image -->
+  <div *ngIf="measurementMethod === 'image'" class="space-y-6">
+    <div class="flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+      <div class="space-y-1 text-center">
+        <svg
+          class="mx-auto h-12 w-12 text-gray-400"
+          stroke="currentColor"
+          fill="none"
+          viewBox="0 0 48 48"
+          aria-hidden="true"
+        >
+          <path
+            d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        <div class="flex text-sm text-gray-600">
+          <label
+            for="file-upload"
+            class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
+            aria-label="Télécharger une photo"
+          >
+            <span>Upload une photo</span>
+            <input
+              id="file-upload"
+              name="file-upload"
+              type="file"
+              class="sr-only"
+              (change)="onImageUpload($event)"
+              accept="image/*"
+              aria-describedby="file-upload-help"
+            >
+          </label>
+        </div>
+        <p class="text-xs text-gray-500">PNG, JPG jusqu'à 10MB</p>
+        <div *ngIf="isUploading" class="mt-4 flex justify-center">
+          <div class="loader"></div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="uploadedImage" class="mt-4">
+      <img [src]="uploadedImage" alt="Image uploadée" class="max-w-md mx-auto rounded-lg shadow">
+    </div>
+    <div *ngIf="!isUploading && mensurations" class="mt-4">
+      <h3 class="text-lg font-medium">Mesures extraites :</h3>
+      <ul>
+        <li *ngFor="let field of mensurationFields">
+          {{ field.label }} : {{ getMensurationValue(field.key) }}
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Formulaire de mensurations -->
+  <div *ngIf="measurementMethod === 'form'" class="space-y-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div *ngFor="let field of mensurationFields">
+        <label [for]="field.key" class="block text-sm font-medium text-gray-700">
+          {{field.label}} {{field.required ? '*' : ''}}
+        </label>
+        <div class="mt-1 relative rounded-md shadow-sm">
+          <input
+            [id]="field.key"
+            type="number"
+            [ngModel]="getMensurationValue(field.key)"
+            (ngModelChange)="setMensurationValue(field.key, $event)"
+            [required]="field.required"
+            class="block w-full rounded-md border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          />
+          <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+            <span class="text-gray-500 sm:text-sm">cm</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Message d'erreur -->
+  <div *ngIf="error" class="mt-4 text-red-600 text-sm">
+    {{ error }}
+  </div>
+  <div *ngIf="uploadError" class="mt-2 text-red-600 text-sm">
+    {{ uploadError }}
+  </div>
+
+  <!-- Boutons d'action -->
+  <div class="mt-8 flex justify-between items-center">
+    <button
+      class="px-6 py-3 rounded-lg bg-indigo-600 text-white font-bold shadow hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+      (click)="saveMensurations()"
+    >
+      Sauvegarder les mensurations
+    </button>
+  </div>
+
+</div>
