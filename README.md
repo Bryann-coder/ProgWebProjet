@@ -35,13 +35,13 @@ Idéal pour les secteurs de la mode, du fitness et de la santé, ce projet est s
 | **KOUASSI DE YOBO GILBERT BRYAN (CHEF)**     | 21P082    | Management/FrontEnd/BackEnd           | 100%               |
 | **MAFFO FONKOU NATACHA**       | 21P272   | Frontend/Mensuration     | 100%               |
 | **MBOCK JEAN DANIEL**  | 21P269    | FrontEnd/BackEnd | 100%               |
-| **ATABONG STEPHANE**     | 23P781    | FrontEnd  | 80%               |
+| **ATABONG STEPHANE**     | 23P781    | FrontEnd  | 85%               |
 | **BENGONO AMVELA NATHAN** | 21P091 | FrontEnd/BackEnd | 85% |
-| **WOTCHOKO YOHAN** | 21P228 | FrontEnd | 85% |
-| **NGOM CHRISTINE** | 21P336 | FrontEnd | 70% |
-| **NGHOGUE TAPTUE FRANCK** | 21P279 | FrontEnd | 75% |
-| **YIMBOU JUDE** | 21P417 |  FrontEnd | 60% |
-| **NOUNDJEU NOUBISSIE FRANCK** | 21P318 | FrontEnd | 70% |
+| **WOTCHOKO YOHAN** | 21P228 | FrontEnd | 90% |
+| **NGOM CHRISTINE** | 21P336 | FrontEnd | 75% |
+| **NGHOGUE TAPTUE FRANCK** | 21P279 | FrontEnd | 80% |
+| **YIMBOU JUDE** | 21P417 |  FrontEnd | 65% |
+| **NOUNDJEU NOUBISSIE FRANCK** | 21P318 | FrontEnd | 75% |
 
 
 ---
@@ -170,11 +170,11 @@ Aucune installation requise, intégré dans le backend.
 
 ## **DEVENIR STYLISTE**
 
-<video controls src="video/devenirstyliste.mp4" title="Title"></video>
+![alt text](gif/devenirstyliste.gif)
 
 ## **MON DASHBOARD**
 
-<video controls src="video/devenirstyliste.mp4" title="Title"></video>
+![alt text](gif/dashboard.gif)
 
 ## **MES COMMANDES**
 
@@ -182,7 +182,7 @@ Aucune installation requise, intégré dans le backend.
 
 ## **UPDATE DASHBOARD**
 
-<video controls src="video/updateDashboard.mp4" title="Title"></video>
+![alt text](gif/updateDashboard.gif)
 
 ## **NEW STYLIST !!**
 
@@ -194,11 +194,11 @@ Aucune installation requise, intégré dans le backend.
 
 ## **REVIEW**
 
-<video controls src="video/review.mp4" title="Title"></video>
+![alt text](gif/review.gif)
 
 ## **FROM PANIER AU PAIEMENT**
 
-<video controls src="video/panier-paiement.mp4" title="Title"></video>
+![alt text](gif/panier-paiement.gif)
 
 ## **PAIEMENT AVEC VOS IDENTIFIANTS**
 
@@ -227,8 +227,7 @@ Aucune installation requise, intégré dans le backend.
 
 ## **DESINCRIPTION DU ROLE DE STYLISTE**
 
-<video controls src="video/desinscription.mp4" title="Title"></video>
-
+![alt text](gif/desinscription.gif)
 
 
 ---
