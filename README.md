@@ -61,15 +61,20 @@ Idéal pour les secteurs de la mode, du fitness et de la santé, ce projet est s
 
 ```
 MyFashion/
-├── backend/
-│   ├── app/            # Code FastAPI
+├── API/
+│   ├── app/            # Modèles de calcul des mesures 
 │   └── requirements.txt
+│   └── run.py
 ├── frontend/
-│   ├── src/            # Composants React
+│   ├── src/            # Structure Angular
 │   └── public/
-├── mensuration/
-│   ├── models/         # Modèles de calcul des mesures
-│   └── scripts/        # Logique de traitement
+├── backend/
+│   ├── app/         # Structure Laravel
+│   └── public/
+│   └── database/
+│   └── resources/
+│   └── routes/
+│   └── storage/             
 └── README.md
 ```
 
@@ -83,24 +88,29 @@ MyFashion/
 - **PHP** 7.4+
 - **Git** pour cloner le projet  
 
-### ⚙️ **Backend Setup**
+### ⚙️ **Backend setup**
+```bash
+cd backend
+composer install
+php artisan migrate
+php artisan db:seed    #Lancer le seeder pour remplir la BD
+```
+
+### 🎨 **Frontend Setup**
+
+```bash
+cd frontend
+npm install
+```
+
+### 📐 **Mensuration**
+
 ```bash
 cd backend
 python -m venv venv
 source venv/bin/activate  # Sur Windows, utilisez 'venv\Scripts\activate'
 pip install -r requirements.txt
-python run.py
 ```
-
-### 🎨 **Frontend Setup**
-```bash
-cd frontend
-npm install
-ng serve --port 4200
-```
-
-### 📐 **Mensuration**
-Aucune installation requise, intégré dans le backend.  
 
 ---
 
@@ -108,9 +118,9 @@ Aucune installation requise, intégré dans le backend.
 
 | Composant   | Technologie         |
 |-------------|---------------------|
-| **Backend** | FastAPI, MediaPipe  |
-| **Frontend**| React, Material-UI  |
-| **Mensuration** | Python, NumPy, Pandas |
+| **Backend** | PHP  |
+| **Frontend**| TypeScript  |
+| **Mensuration** | Python |
 
 ---
 
@@ -243,12 +253,12 @@ Aucune installation requise, intégré dans le backend.
 2. Lancez le frontend :  
    ```bash
    cd frontend
-   ng serve --port 4200
+   ng serve       # Port 4200
    ```
 3. Lancez le backend :
    ```bash
    cd backend
-   php artisan serve
+   php artisan serve # Port 8000
    ```
 
 4. Ouvrez votre navigateur à [http://localhost:4200](http://localhost:4200).
