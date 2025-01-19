@@ -116,11 +116,12 @@ pip install -r requirements.txt
 
 <h2 id="tech">🛠 Technologies Utilisées</h2>
 
-| Composant   | Technologie         |
-|-------------|---------------------|
-| **Backend** | PHP, Blade  |
-| **Frontend**| HTML, CSS, TypeScript |
-| **Mensuration** | Python |
+| Composant   | Technologie         | Language |
+|-------------|---------------------|------------|
+| **Backend** | LARAVEL | PHP, Blade  |
+| **Frontend**| ANGULAR | HTML, CSS , TypeScript |
+| **Mensuration** |  FastAPI |Python |
+| **Base de donnees** | MySQL (dev), SQLite (deploy) | SQL |
 
 ---
 
