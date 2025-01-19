@@ -268,7 +268,7 @@ pip install -r requirements.txt
 ---
 
 <h2 id="licence">📝 Licence</h2>
-Ce projet est sous licence <b>ENSPY</b>. Consultez le fichier [LICENSE](LICENSE) pour plus d'informations.
+Ce projet est sous licence <b>ENSPY</b>. Consultez le fichier LICENSE pour plus d'informations.
 
 ---
 
