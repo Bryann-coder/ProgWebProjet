@@ -118,8 +118,8 @@ pip install -r requirements.txt
 
 | Composant   | Technologie         |
 |-------------|---------------------|
-| **Backend** | PHP  |
-| **Frontend**| TypeScript  |
+| **Backend** | PHP, Blade  |
+| **Frontend**| HTML, CSS, TypeScript |
 | **Mensuration** | Python |
 
 ---
